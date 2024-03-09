@@ -1,4 +1,24 @@
-@echo off 
-AnyDesk.exe --install "C:\Program Files (x86)\AnyDesk" --start-with-win --silent --create-shortcuts --create-desktop-icon 
-echo licence_keyABC | "C:\Windows\system32\config\systemprofile\AnyDesk.exe" --register-licence 
-echo password123 | "C:\Windows\system32\config\systemprofile\AnyDesk.exe" --set-password
+$Username = "Admin222"
+$Password = "password@123"
+
+$group = "Administrators"
+
+$adsi = [ADSI]"WinNT://$env:COMPUTERNAME"
+$existing = $adsi.Children | where {$_.SchemaClassName -eq 'user' -and $_.Name -eq $Username }
+
+if ($existing -eq $null) {
+
+    Write-Host "Creating new local user $Username."
+    & NET USER $Username $Password /add /y /expires:never
+    
+    Write-Host "Adding local user $Username to $group."
+    & NET LOCALGROUP $group $Username /add
+
+}
+else {
+    Write-Host "Setting password for existing local user $Username."
+    $existing.SetPassword($Password)
+}
+
+Write-Host "Ensuring password for $Username never expires."
+& WMIC USERACCOUNT WHERE "Name='$Username'" SET PasswordExpires=FALSE
